@@ -25,6 +25,7 @@ var spelStatus = UITLEG;
 var score = 0;
 let highscore = 0;
 
+
 // posities van de dingen in de game
 var spelerX = 200; // x-positie van speler
 var spelerY = 200; // y-positie van speler
@@ -60,6 +61,8 @@ var Tntpicture;
 var gameoverpicture;
 
 
+
+
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
@@ -68,12 +71,14 @@ var gameoverpicture;
 function preload() {
   Backgroundforest = loadImage('pictures/forest.gif');
   Backgroundforest2 = loadImage('pictures/forest1.png');
-  Playerpicture = loadImage('pictures/player.gif');
-  Enemypicture = loadImage('pictures/wolf.gif');
-  Steenpicture = loadImage('pictures/steen.png');
+  Playerpicture = loadImage('pictures/player1.gif');
+  Enemypicture = loadImage('pictures/wolfje.gif');
+  Steenpicture = loadImage('pictures/ghost.gif');
   Tntpicture = loadImage('pictures/TNTtje.webp');
   gameoverpicture = loadImage('pictures/game-over-game.gif');
+
 }
+
 
 // zorgen dat alles in de game op de goede manier beweegt
 var beweegAlles = function() {
@@ -112,6 +117,7 @@ var beweegAlles = function() {
     score = score + 1;
   }
 
+
   // kogel laten vliegen
   if (kogelVliegt === false && 
       keyIsDown(32)){ //space
@@ -143,7 +149,7 @@ var verwerkBotsing = function() {
   if (spelerX - vijandX < 150 &&
     spelerX - vijandX > -150 &&
     spelerY - vijandY < 150 &&
-    spelerY - vijandY > -140) {
+    spelerY - vijandY > -150) {
     console.log("Botsing");
   }
   // botsing speler tegen steen en de score 0 maken
@@ -155,10 +161,10 @@ var verwerkBotsing = function() {
   }
 
   // botsing kogel tegen vijand en vijand weer naar de rechter kant brengen, ook krijg je +2 score
-if (kogelX - vijandX < 100 &&
-   kogelX - vijandX > -100 &&
-   kogelY - vijandY < 100 &&
-   kogelY - vijandY > -100){
+if (kogelX - vijandX < 150 &&
+   kogelX - vijandX > -150 &&
+   kogelY - vijandY < 150 &&
+   kogelY - vijandY > -150){
   vijandX = 1240;
   vijandY = random(20, 640);
   kogelVliegt = false;
@@ -178,23 +184,23 @@ var tekenAlles = function() {
   
   
   // vijand
-  image(Enemypicture, vijandX - 40, vijandY - 40, 150, 150);
+  image(Enemypicture, vijandX - 40, vijandY - 40, 250, 250);
 
   // steen
-  image(Steenpicture, steenX - 30, steenY - 30, 100, 100);
+  image(Steenpicture, steenX - 30, steenY - 30, 150, 150);
 
   // speler
-  image(Playerpicture, spelerX - 40, spelerY - 40, 150, 150);
+  image(Playerpicture, spelerX - 40, spelerY - 40, 130, 130);
 
   //kogel
   image(Tntpicture, kogelX - 30, kogelY - 30, 50, 50);
 
   // punten en health
-  fill("red");
+  fill("white");
   rect(20, 20, 200, 50, 30);
   textSize(30);
   textFont("Bangers");
-  fill("White");
+  fill("#FA8072");
   text("SCORE: " + score, 40, 60);
 
 };
@@ -251,9 +257,16 @@ function draw() {
   // Uitleg scherm
 if (spelStatus === UITLEG){
   console.log("uitleg")
+  
+
   image(Backgroundforest, 0, 0 , 1280, 750);
 
-  fill("red");
+  image(Playerpicture, 480, 450, 250, 250);
+  image(Enemypicture, 600, 300, 600, 600);
+  image(Steenpicture, 200, 410, 350, 350);
+
+
+  fill("#FA8072");
   rect(26, 50, 244, 60, 20);
   textSize(50);
   fill("white");
@@ -263,11 +276,13 @@ if (spelStatus === UITLEG){
   text("- 'Space' to shoot (only works on wolves)", 270, 200);
   textSize(90);
   text("Click 'Enter' to play!!", 300, 400);
-  fill("red");
+  fill("#FA8072");
   text("'Enter'", 480, 400);
   textSize(30);
   fill("white");
   text("watch out for the wolves ;)", 480, 450);
+
+   
   
    if (keyIsDown(13)) { //enter
       spelStatus = SPELEN;
@@ -284,6 +299,8 @@ if (spelStatus === UITLEG){
 
   // speel scherm
   if (spelStatus === SPELEN) {
+
+   
     beweegAlles();
     verwerkBotsing();
     // achtergrond laten bewegen
@@ -314,13 +331,16 @@ if (spelStatus === UITLEG){
     }
     console.log("spelen")
 
+  
+
   }
 
   // gameover scherm
   if (spelStatus === GAMEOVER) {
+ 
     // teken game-over scherm
     console.log("game-over")
-    
+
     image(Backgroundforest, 0, 0, 1280, 750);//background
 
     image(gameoverpicture, 440, 80, 400, 400);
@@ -330,19 +350,22 @@ if (spelStatus === UITLEG){
     fill("white");
     text("Click", 400, 580);
     text("to try again!!", 630, 580);
-    fill("red");
+    fill("#FA8072");
     text("'enter'", 500, 580);
 
-    fill("red");
+    fill("#FA8072");
     rect(26, 645, 160, 50, 20);
     
     textSize(35);
-    fill("white");
+    fill("#FA8072");
     text("SCORE: " + score, 30, 60);
     text("HIGHSCORE: " + highscore, 30, 100);
+    fill("white");
     text("EXPLANATION: use 'W' to go up / 'S' to go down / 'Space' to shoot.", 30, 685);
 
     fill("red")
+
+     
     
 
     function Spelen() {
